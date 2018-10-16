@@ -577,7 +577,8 @@ PlayerSettings:
   webGLLinkerTarget: 1
   scriptingDefineSymbols: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Metro: 2
   il2cppCompilerConfiguration: {}
   incrementalIl2cppBuild: {}
   allowUnsafeCode: 0
@@ -588,11 +589,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Template3D
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 00b29b7f5e84d501
   metroApplicationDescription: Template_3D
   wsaImages: {}
   metroTileShortName: HololensTestMarkers
