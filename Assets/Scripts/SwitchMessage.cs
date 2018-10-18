@@ -1,13 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Vuforia;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Windows.Speech;
+
 
 public class SwitchMessage : MonoBehaviour, IVirtualButtonEventHandler {
 
     private int index;
+
+    private KeywordRecognizer keywordRecognizer;
+    Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
     public TextMeshProUGUI MessageText;
 
@@ -21,6 +27,7 @@ public class SwitchMessage : MonoBehaviour, IVirtualButtonEventHandler {
 
     public string Problem;
     public string Solution;
+    public string SwitchCommand;
 
     public GameObject SwitchMessageButton;
 
@@ -28,19 +35,29 @@ public class SwitchMessage : MonoBehaviour, IVirtualButtonEventHandler {
     void Start()
     {
         SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
+        keywords.Add(SwitchCommand, () =>
+        {
+            Switch();
+        });
         index = 0;
+        keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
+        keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
+        keywordRecognizer.Start();
+    }
+
+    private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
+    {
+        System.Action keywordAction;
+
+        if(keywords.TryGetValue(args.text, out keywordAction))
+        {
+            keywordAction.Invoke();
+        }
     }
 
     public void OnButtonPressed(VirtualButtonBehaviour vb)
     {
-        if(index == 0)
-        {
-            SwitchToSolution();
-        }
-        else
-        {
-            SwitchToProblem();
-        }
+        Switch();
     }
 
     public void OnButtonReleased(VirtualButtonBehaviour vb)
@@ -61,5 +78,17 @@ public class SwitchMessage : MonoBehaviour, IVirtualButtonEventHandler {
         SwitchMessageIcon.sprite = ToSolutionIcon;
         MessageText.text = Problem;
         index = 0;
+    }
+
+    private void Switch()
+    {
+        if (index == 0)
+        {
+            SwitchToSolution();
+        }
+        else
+        {
+            SwitchToProblem();
+        }
     }
 }
