@@ -10,6 +10,7 @@ public class IconProvider : MonoBehaviour {
     public Sprite ToProblemIcon;
     public Sprite AttentionIcon;
     public Sprite SolutionIcon;
+    public Sprite RewardIcon;
 
     void Awake()
     {
