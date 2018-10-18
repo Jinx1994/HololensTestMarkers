@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Vuforia;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Windows.Speech;
 
@@ -16,11 +15,6 @@ public class SwitchMessage : MonoBehaviour, IVirtualButtonEventHandler {
     Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
     public TextMeshProUGUI MessageText;
-
-    public Sprite ToSolutionIcon;
-    public Sprite ToProblemIcon;
-    public Sprite AttentionIcon;
-    public Sprite SolutionIcon;
 
     public UnityEngine.UI.Image SwitchMessageIcon;
     public UnityEngine.UI.Image StatusIcon;
@@ -66,16 +60,16 @@ public class SwitchMessage : MonoBehaviour, IVirtualButtonEventHandler {
 
     private void SwitchToSolution()
     {
-        StatusIcon.sprite = SolutionIcon;
-        SwitchMessageIcon.sprite = ToProblemIcon;
+        StatusIcon.sprite = IconProvider.instance.SolutionIcon;
+        SwitchMessageIcon.sprite = IconProvider.instance.ToProblemIcon;
         MessageText.text = Solution;
         index = 1;       
     }
 
     private void SwitchToProblem()
     {
-        StatusIcon.sprite = AttentionIcon;
-        SwitchMessageIcon.sprite = ToSolutionIcon;
+        StatusIcon.sprite = IconProvider.instance.AttentionIcon;
+        SwitchMessageIcon.sprite = IconProvider.instance.ToSolutionIcon;
         MessageText.text = Problem;
         index = 0;
     }

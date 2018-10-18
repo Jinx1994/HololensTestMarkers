@@ -1278,6 +1278,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &935216022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 935216024}
+  - component: {fileID: 935216023}
+  m_Layer: 0
+  m_Name: IconProvider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &935216023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 935216022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8619d00423d422b41849412868bb7879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToSolutionIcon: {fileID: 21300000, guid: c048156167659024fa674c2806085c9b, type: 3}
+  ToProblemIcon: {fileID: 21300000, guid: da24659be50813f41b697d2753ade9d1, type: 3}
+  AttentionIcon: {fileID: 21300000, guid: 769b96502aadf3547a69bd3016814d5b, type: 3}
+  SolutionIcon: {fileID: 21300000, guid: 921bc8e69dcc4d74e87d57b261af6bfa, type: 3}
+--- !u!4 &935216024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 935216022}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0065431017, y: -0.09082277, z: 0.056106288}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &1466191060
 Material:
   serializedVersion: 6
@@ -1729,10 +1773,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MessageText: {fileID: 1888431455}
-  ToSolutionIcon: {fileID: 21300000, guid: c048156167659024fa674c2806085c9b, type: 3}
-  ToProblemIcon: {fileID: 21300000, guid: da24659be50813f41b697d2753ade9d1, type: 3}
-  AttentionIcon: {fileID: 21300000, guid: 769b96502aadf3547a69bd3016814d5b, type: 3}
-  SolutionIcon: {fileID: 21300000, guid: 921bc8e69dcc4d74e87d57b261af6bfa, type: 3}
   SwitchMessageIcon: {fileID: 754387630}
   StatusIcon: {fileID: 107195048}
   Problem: 'Some components are defect or not working properly. '
