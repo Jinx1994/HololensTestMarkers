@@ -13,7 +13,6 @@ public class InteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
     public int pointsForReward;
 
     private KeywordRecognizer keywordRecognizer;
-    Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
     public TextMeshProUGUI MessageText;
 
