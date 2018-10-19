@@ -10,13 +10,12 @@ using UnityEngine.Windows.Speech;
 public class InteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
 
     private int index;
-    private int points;
+    public int pointsForReward;
 
     private KeywordRecognizer keywordRecognizer;
     Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
     public TextMeshProUGUI MessageText;
-    public TextMeshProUGUI PointsText;
 
     public UnityEngine.UI.Image SwitchMessageIcon;
     public UnityEngine.UI.Image StatusIcon;
@@ -35,7 +34,6 @@ public class InteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
         SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
         RepairButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
         index = 0;
-        points = 0;
         keywordRecognizer = new KeywordRecognizer(VoiceCommands);
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();
@@ -43,17 +41,17 @@ public class InteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {  
-        switch(args.text.ToLower())
+        if(VoiceCommands.Length >= 2)
         {
-            case "switch":
+            if(args.text.ToLower().Equals(VoiceCommands[0].ToLower()))
+            {
                 SwitchMessageText();
-                break;
-            case "one":
+            }
+            else if(args.text.ToLower().Equals(VoiceCommands[1].ToLower()))
+            {
                 SwitchToReward();
-                break;
-            default:
-                break;
-        }       
+            }
+        }    
     }
 
     public void OnButtonPressed(VirtualButtonBehaviour vb)
@@ -111,7 +109,6 @@ public class InteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
         SwitchMessageButton.SetActive(false);
         RepairButton.SetActive(false);
         MessageText.text = RewardText;
-        points += 20;
-        PointsText.text = "Points: " + points;
+        IconProvider.instance.points += pointsForReward;
     }
 }

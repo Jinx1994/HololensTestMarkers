@@ -6,6 +6,8 @@ public class IconProvider : MonoBehaviour {
 
     public static IconProvider instance;
 
+    public int points;
+
     public Sprite ToSolutionIcon;
     public Sprite ToProblemIcon;
     public Sprite AttentionIcon;
