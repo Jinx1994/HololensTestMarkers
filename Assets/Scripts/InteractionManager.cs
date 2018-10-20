@@ -109,5 +109,6 @@ public class InteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
         RepairButton.SetActive(false);
         MessageText.text = RewardText;
         IconProvider.instance.points += pointsForReward;
+        keywordRecognizer.Stop();
     }
 }
