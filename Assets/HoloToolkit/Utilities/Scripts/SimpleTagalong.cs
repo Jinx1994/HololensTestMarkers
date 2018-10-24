@@ -72,6 +72,7 @@ namespace HoloToolkit.Unity
                 // to move the Tagalong to its new target position.
                 interpolator.PositionPerSecond = PositionUpdateSpeed;
                 interpolator.SetTargetPosition(tagalongTargetPosition);
+                transform.rotation = mainCamera.transform.rotation;
             }
             else if (!interpolator.Running && EnforceDistance)
             {
@@ -80,6 +81,7 @@ namespace HoloToolkit.Unity
                 // tagalong to that location (without using the Interpolator).
                 Ray ray = new Ray(mainCamera.transform.position, transform.position - mainCamera.transform.position);
                 transform.position = ray.GetPoint(TagalongDistance);
+                transform.rotation = mainCamera.transform.rotation;
             }
         }
 
