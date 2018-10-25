@@ -22,7 +22,9 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
     protected TrackableBehaviour mTrackableBehaviour;
     protected TrackableBehaviour.Status m_PreviousStatus;
     protected TrackableBehaviour.Status m_NewStatus;
-    public GameObject ARCamera;
+
+    private CameraManager cameraManager;
+    private UIManager uiManager;
 
     #endregion // PROTECTED_MEMBER_VARIABLES
 
@@ -33,6 +35,10 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
         mTrackableBehaviour = GetComponent<TrackableBehaviour>();
         if (mTrackableBehaviour)
             mTrackableBehaviour.RegisterTrackableEventHandler(this);
+
+        GameObject temp = GameObject.Find("LogicManager");
+        cameraManager = temp.GetComponent<CameraManager>();
+        uiManager = temp.GetComponent<UIManager>();
     }
 
     protected virtual void OnDestroy()
@@ -62,9 +68,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
         {
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
             OnTrackingFound();
-            //LoadScene.ChangeUIIndexAndLoadScene(mTrackableBehaviour.TrackableName);
-            ARCamera.SetActive(false);
-            Invoke("SwitchBack", 3f);
+            cameraManager.DisableARWorld();
+            uiManager.LoadUIBasedOnMarker(mTrackableBehaviour.TrackableName);
         }
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NO_POSE)
@@ -125,9 +130,4 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
     }
 
     #endregion // PROTECTED_METHODS
-
-    void SwitchBack()
-    {
-        ARCamera.SetActive(true);
-    }
 }
