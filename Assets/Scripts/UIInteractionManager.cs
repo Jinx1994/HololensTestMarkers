@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Vuforia;
 using TMPro;
 using UnityEngine.Windows.Speech;
 
 
-public class UIInteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
+public class UIInteractionManager : MonoBehaviour {
 
     private int index;
     public int pointsForReward;
@@ -30,8 +28,8 @@ public class UIInteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
     // Use this for initialization
     void Start()
     {
-        SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
-        RepairButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
+        //SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
+        //RepairButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
         index = 0;
         keywordRecognizer = new KeywordRecognizer(VoiceCommands);
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
@@ -53,25 +51,6 @@ public class UIInteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
         }    
     }
 
-    public void OnButtonPressed(VirtualButtonBehaviour vb)
-    {
-        string temp = SwitchMessageButton.name.ToLower();
-        string temp2 = RepairButton.name.ToLower();
-        
-        if(vb.gameObject.name.ToLower().Equals(temp))
-        {
-            SwitchMessageText();
-        }
-        else if(vb.gameObject.name.ToLower().Equals(temp2))
-        {
-            SwitchToReward();
-        }
-    }
-
-    public void OnButtonReleased(VirtualButtonBehaviour vb)
-    {
-    }
-
     private void SwitchToSolution()
     {
         StatusIcon.sprite = IconProvider.instance.SolutionIcon;
@@ -88,7 +67,7 @@ public class UIInteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
         index = 0;
     }
 
-    private void SwitchMessageText()
+    public void SwitchMessageText()
     {
         if (index == 0)
         {
@@ -100,11 +79,11 @@ public class UIInteractionManager : MonoBehaviour, IVirtualButtonEventHandler {
         }
     }
 
-    private void SwitchToReward()
+    public void SwitchToReward()
     {
         StatusIcon.sprite = IconProvider.instance.RewardIcon;
-        RepairButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
-        SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+        //RepairButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
+        //SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
         SwitchMessageButton.SetActive(false);
         RepairButton.SetActive(false);
         MessageText.text = RewardText;
