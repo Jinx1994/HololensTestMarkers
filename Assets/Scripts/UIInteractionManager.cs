@@ -7,30 +7,25 @@ using UnityEngine.Windows.Speech;
 
 public class UIInteractionManager : MonoBehaviour {
 
-    private int index;
-    public int pointsForReward;
+    private int problemIndex;
 
     private KeywordRecognizer keywordRecognizer;
 
-    public TextMeshProUGUI MessageText;
+    public TextMeshProUGUI SolutionMessage;
 
-    public UnityEngine.UI.Image SwitchMessageIcon;
-    public UnityEngine.UI.Image StatusIcon;
-
-    public string ProblemText;
-    public string SolutionText;
-    public string RewardText;
+    public string[] SolutionTexts;
     public string[] VoiceCommands;
+    private string SolutionText;
 
-    public GameObject SwitchMessageButton;
-    public GameObject RepairButton;
+    public GameObject SolutionPanel;
+    public GameObject ProblemPanel;
+    public GameObject[] ProblemMessages;
+    public GameObject ComponentImage;
+    public GameObject WarningImage;
 
     // Use this for initialization
     void Start()
     {
-        //SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
-        //RepairButton.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
-        index = 0;
         keywordRecognizer = new KeywordRecognizer(VoiceCommands);
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();
@@ -38,56 +33,74 @@ public class UIInteractionManager : MonoBehaviour {
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {  
-        if(VoiceCommands.Length >= 2)
+        if(VoiceCommands.Length >= 3)
         {
             if(args.text.ToLower().Equals(VoiceCommands[0].ToLower()))
             {
-                SwitchMessageText();
+                SwitchToSolutionPanel();
             }
             else if(args.text.ToLower().Equals(VoiceCommands[1].ToLower()))
             {
-                SwitchToReward();
+                SwitchToSolutionPanel();
+            }
+            else if (args.text.ToLower().Equals(VoiceCommands[2].ToLower()))
+            {
+                ResolveProblem();
             }
         }    
     }
 
-    private void SwitchToSolution()
-    {
-        StatusIcon.sprite = IconProvider.instance.SolutionIcon;
-        SwitchMessageIcon.sprite = IconProvider.instance.ToProblemIcon;
-        MessageText.text = SolutionText;
-        index = 1;       
-    }
-
-    private void SwitchToProblem()
-    {
-        StatusIcon.sprite = IconProvider.instance.AttentionIcon;
-        SwitchMessageIcon.sprite = IconProvider.instance.ToSolutionIcon;
-        MessageText.text = ProblemText;
-        index = 0;
-    }
-
-    public void SwitchMessageText()
-    {
-        if (index == 0)
+    public void SwitchToSolutionPanel(bool showSolutionImage = false)
+    {   
+        if(showSolutionImage)
         {
-            SwitchToSolution();
+            ComponentImage.SetActive(true);
         }
         else
         {
-            SwitchToProblem();
+            ComponentImage.SetActive(false);
         }
+        ProblemPanel.SetActive(false);
+        SolutionPanel.SetActive(true);
+        SolutionMessage.text = SolutionText;     
     }
 
-    public void SwitchToReward()
+    public void SwitchToProblemPanel()
     {
-        StatusIcon.sprite = IconProvider.instance.RewardIcon;
-        //RepairButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
-        //SwitchMessageButton.GetComponent<VirtualButtonBehaviour>().enabled = false;
-        SwitchMessageButton.SetActive(false);
-        RepairButton.SetActive(false);
-        MessageText.text = RewardText;
-        IconProvider.instance.points += pointsForReward;
-        keywordRecognizer.Stop();
+        ProblemPanel.SetActive(true);
+        SolutionPanel.SetActive(false);
+    }
+
+    public void ResolveProblem()
+    {
+        SwitchToProblemPanel();
+        ProblemMessages[problemIndex].SetActive(false);
+        DisableWarningIcon();
+    }
+
+    public void SetSolutionText(int index)
+    {
+        SolutionText = SolutionTexts[index];
+        problemIndex = index;       
+    }
+
+    private void DisableWarningIcon()
+    {
+        bool noProblemMessagesLeft = true;
+
+        foreach(GameObject ProblemMessage in ProblemMessages)
+        {
+            if(ProblemMessage.activeSelf)
+            {
+                noProblemMessagesLeft = false;
+                break;
+            }
+        }
+
+        if(noProblemMessagesLeft)
+        {
+            WarningImage.SetActive(false);
+            //LogicManager.instance.EnableARWorld();
+        }
     }
 }

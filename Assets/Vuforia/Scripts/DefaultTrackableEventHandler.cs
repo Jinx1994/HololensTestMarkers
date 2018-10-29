@@ -23,9 +23,6 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
     protected TrackableBehaviour.Status m_PreviousStatus;
     protected TrackableBehaviour.Status m_NewStatus;
 
-    private CameraManager cameraManager;
-    private UIManager uiManager;
-
     #endregion // PROTECTED_MEMBER_VARIABLES
 
     #region UNITY_MONOBEHAVIOUR_METHODS
@@ -35,10 +32,6 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
         mTrackableBehaviour = GetComponent<TrackableBehaviour>();
         if (mTrackableBehaviour)
             mTrackableBehaviour.RegisterTrackableEventHandler(this);
-
-        GameObject temp = GameObject.Find("LogicManager");
-        cameraManager = temp.GetComponent<CameraManager>();
-        uiManager = temp.GetComponent<UIManager>();
     }
 
     protected virtual void OnDestroy()
@@ -68,8 +61,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
         {
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
             OnTrackingFound();
-            cameraManager.DisableARWorld();
-            uiManager.LoadUIBasedOnMarker(mTrackableBehaviour.TrackableName);
+            LogicManager.instance.DisableARWorld();
+            LogicManager.instance.LoadUIBasedOnMarker(mTrackableBehaviour.TrackableName);
         }
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NO_POSE)
