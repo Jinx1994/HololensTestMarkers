@@ -33,19 +33,21 @@ public class UIInteractionManager : MonoBehaviour {
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {  
-        if(VoiceCommands.Length >= 3)
+        if(VoiceCommands.Length == 3)
         {
-            if(args.text.ToLower().Equals(VoiceCommands[0].ToLower()))
+            if(args.text.ToLower().Equals(VoiceCommands[0].ToLower()) && ProblemMessages[0].activeSelf)
             {
-                SwitchToSolutionPanel();
+                SetSolutionText(0);
+                SwitchToSolutionPanel(true);
             }
-            else if(args.text.ToLower().Equals(VoiceCommands[1].ToLower()))
+            else if(args.text.ToLower().Equals(VoiceCommands[1].ToLower()) && ProblemMessages[0].activeSelf)
             {
-                SwitchToSolutionPanel();
+                problemIndex = 0;
+                ResolveProblem();
             }
             else if (args.text.ToLower().Equals(VoiceCommands[2].ToLower()))
             {
-                ResolveProblem();
+                SwitchToProblemPanel();
             }
         }    
     }
